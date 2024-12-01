@@ -8,7 +8,7 @@ from .TaskValidation import TaskValidation
 
 
 class TaskManager:
-    def __init__(self, file: str = 'tasks.json'):
+    def __init__(self, file: str = 'data/tasks.json'):
         self.file: str = file
         self.id_index_tasks: Dict[int, Task]\
             = self._load_tasks()
@@ -129,3 +129,4 @@ class TaskManager:
                 ensure_ascii=False,
                 indent=4
             )
+        print(f'Данные сохранены в файл {self.file}')

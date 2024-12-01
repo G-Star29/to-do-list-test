@@ -95,6 +95,10 @@ def menu_find_tasks():
             print(f"Задач со статусом '{status}' не найдено.")
     input("Нажмите Enter, чтобы продолжить.")
 
+def menu_save_tasks():
+    clear_screen()
+    task_manager.save_tasks()
+    input("Нажмите Enter, чтобы продолжить.")
 
 def task_form() -> dict:
     title = input("Введите название задачи: ").strip()
@@ -120,6 +124,7 @@ menu_actions = {
     '3': menu_edit_task,
     '4': menu_delete_task,
     '5': menu_find_tasks,
+    '6': menu_save_tasks,
 }
 
 
@@ -133,6 +138,7 @@ if __name__ == '__main__':
         print("3. Редактировать задачу")
         print("4. Удалить задачу")
         print("5. Поиск задач")
+        print("6. Сохранить данные в файл")
         print("0. Выход")
         choice = input("Выберите действие: ").strip()
         if choice == '0':
