@@ -8,7 +8,10 @@ def clear_screen():
     os.system('cls||clear')
 
 
-def input_with_validation(prompt: str, validation: Callable[[str], bool] = None) -> str:
+def input_with_validation(
+        prompt: str,
+        validation: Callable[[str], bool] = None
+        ) -> str:
     while True:
         user_input = input(prompt)
         if validation and not validation(user_input):
@@ -56,7 +59,10 @@ def menu_delete_task():
     clear_screen()
     print("1. Удалить задачи по категории")
     print("2. Удалить задачу по ID")
-    choice = input_with_validation("Ваш выбор (1/2): ", lambda x: x in {'1', '2'})
+    choice = input_with_validation(
+        "Ваш выбор (1/2): ",
+        lambda x: x in {'1', '2'}
+    )
     if choice == '1':
         category = input("Введите категорию: ").strip().lower()
         if task_manager.delete_tasks_by_category(category):
@@ -75,7 +81,10 @@ def menu_find_tasks():
     clear_screen()
     print("1. Поиск задачи по ключевым словам")
     print("2. Поиск задачи по статусу выполнения")
-    choice = input_with_validation("Ваш выбор (1/2): ", lambda x: x in {'1', '2'})
+    choice = input_with_validation(
+        "Ваш выбор (1/2): ",
+        lambda x: x in {'1', '2'}
+    )
     if choice == '1':
         keywords = set(input("Введите ключевые слова через пробел: ").strip().lower().split())
         matching_in_title, matching_in_description = task_manager.get_tasks_by_keywords(keywords)
@@ -95,10 +104,12 @@ def menu_find_tasks():
             print(f"Задач со статусом '{status}' не найдено.")
     input("Нажмите Enter, чтобы продолжить.")
 
+
 def menu_save_tasks():
     clear_screen()
     task_manager.save_tasks()
     input("Нажмите Enter, чтобы продолжить.")
+
 
 def task_form() -> dict:
     title = input("Введите название задачи: ").strip()
@@ -106,11 +117,20 @@ def task_form() -> dict:
     category = input("Введите категорию задачи: ").strip()
     due_date = input("Введите дату (ДД-ММ-ГГГГ): ").strip()
     priority = input("Введите приоритет (Низкий, Средний, Высокий): ").strip()
-    return {'title': title, 'description': description, 'category': category, 'due_date': due_date, 'priority': priority}
+    return {
+        'title': title,
+        'description': description,
+        'category': category,
+        'due_date': due_date,
+        'priority': priority
+    }
 
 
 def get_task_by_id() -> Task | None:
-    id_task = input_with_validation("Введите ID задачи: ", lambda x: x.isdigit())
+    id_task = input_with_validation(
+        "Введите ID задачи: ",
+        lambda x: x.isdigit()
+    )
     task = task_manager.find_task_by_id(int(id_task))
     if not task:
         print(f"Задача с ID {id_task} не найдена.")
