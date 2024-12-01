@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "title": "Купить продукты",
+        "description": "Купить хлеб и молоко",
+        "category": "Личное",
+        "due_date": "30-11-2024",
+        "priority": "Средний",
+        "status": "Не выполнена"
+    },
+    {
+        "id": 2,
+        "title": "Подготовить отчёт",
+        "description": "Собрать данные по продажам",
+        "category": "Работа",
+        "due_date": "30-12-2024",
+        "priority": "Высокий",
+        "status": "Не выполнена"
+    },
+    {
+        "id": 3,
+        "title": "FastAPI",
+        "description": "Изучть FastAPI",
+        "category": "Обучение",
+        "due_date": "07-11-2025",
+        "priority": "Средний",
+        "status": "Не выполнена"
+    }
+]
