@@ -25,7 +25,11 @@ class TaskManager:
     def _load_tasks(self) -> dict[int, Task]:
         try:
             with open(self.file, 'r', encoding='utf-8') as file_to_load:
-                data = json.load(file_to_load)
+                try:
+                    data = json.load(file_to_load)
+                except json.decoder.JSONDecodeError:
+                    print(f'Файл {self.file} пуст')
+                    data = []
                 validate_data = []
                 for data_item in data:
                     if TaskValidation.validate_task(data_item):
