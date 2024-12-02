@@ -5,6 +5,7 @@ from models.TaskManager import TaskManager, Task
 
 
 def clear_screen():
+    """Очистка CLI"""
     os.system('cls||clear')
 
 
@@ -12,6 +13,10 @@ def input_with_validation(
         prompt: str,
         validation: Callable[[str], bool] = None
         ) -> str:
+    """
+    Проверка на верный ввод по определенному
+    промту
+    """
     while True:
         user_input = input(prompt)
         if validation and not validation(user_input):
@@ -21,6 +26,7 @@ def input_with_validation(
 
 
 def menu_view_tasks():
+    """Меню вывода задач"""
     clear_screen()
     tasks_list = task_manager.get_tasks()
     if tasks_list:
@@ -32,6 +38,7 @@ def menu_view_tasks():
 
 
 def menu_add_task():
+    """Меню добавления задачи"""
     clear_screen()
     while True:
         task = task_form()
@@ -44,6 +51,7 @@ def menu_add_task():
 
 
 def menu_edit_task():
+    """Меню редактирования задачи"""
     clear_screen()
     task = get_task_by_id()
     if task:
@@ -56,6 +64,7 @@ def menu_edit_task():
 
 
 def menu_delete_task():
+    """Меню удаления задачи"""
     clear_screen()
     print("1. Удалить задачи по категории")
     print("2. Удалить задачу по ID")
@@ -78,6 +87,7 @@ def menu_delete_task():
 
 
 def menu_find_tasks():
+    """Меню поиска задачи (keywords или status)"""
     clear_screen()
     print("1. Поиск задачи по ключевым словам")
     print("2. Поиск задачи по статусу выполнения")
@@ -106,12 +116,14 @@ def menu_find_tasks():
 
 
 def menu_save_tasks():
+    """Меню сохранения задач в файл"""
     clear_screen()
     task_manager.save_tasks()
     input("Нажмите Enter, чтобы продолжить.")
 
 
 def task_form() -> dict:
+    """Форма для заполнения задачи"""
     title = input("Введите название задачи: ").strip()
     description = input("Введите описание задачи: ").strip()
     category = input("Введите категорию задачи: ").strip()
@@ -127,6 +139,7 @@ def task_form() -> dict:
 
 
 def get_task_by_id() -> Task | None:
+    """Получение задачи по ID c обработкой ошибок"""
     id_task = input_with_validation(
         "Введите ID задачи: ",
         lambda x: x.isdigit()

@@ -18,12 +18,14 @@ class TaskManager:
         self.current_id: int = self._get_max_id()
 
     def _build_category_index(self) -> Dict[str, List[Task]]:
+        """Построение индексов по категории"""
         index = defaultdict(list)
         for task in self.id_index_tasks.values():
             index[task.category.lower()].append(task)
         return index
 
     def _load_tasks(self) -> dict[int, Task]:
+        """Загрузка данных из json"""
         try:
             with open(self.file, 'r', encoding='utf-8') as file_to_load:
                 try:
@@ -48,11 +50,13 @@ class TaskManager:
             raise FileNotFoundError(f'{self.file} не найден')
 
     def _get_max_id(self) -> int:
+        """Получение актуального максимального ID задачи в словаре"""
         if not self.id_index_tasks.keys():
             return 0
         return max(self.id_index_tasks.keys())
 
     def add_task(self, data: Dict[str, str | int]) -> bool:
+        """Добавляет задачу в словарь"""
         task_id = self.current_id
         data['id'] = task_id + 1
         validate_data = (TaskValidation.
@@ -66,10 +70,12 @@ class TaskManager:
         return False
 
     def find_task_by_id(self, id: int) -> Task | None:
+        """Ищет задачу по ID"""
         task = self.id_index_tasks.get(id, None)
         return task if task else None
 
     def edit_task_by_id(self, id: int, data: Dict[str, str | int]) -> None:
+        """Редактирование задачи по ее ID"""
         data['id'] = id
         validate_data = TaskValidation.validate_task(data)
         if validate_data:
@@ -77,11 +83,13 @@ class TaskManager:
             self.category_index_tasks = self._build_category_index()
 
     def delete_task_by_id(self, id: int) -> None | bool:
+        """Удаление задачи по ее ID"""
         if not self.id_index_tasks.pop(id, None):
             return False
         self.category_index_tasks = self._build_category_index()
 
     def delete_tasks_by_category(self, category: str) -> None | bool:
+        """Удаление задач по категориям"""
         tasks_deleted = self.category_index_tasks.pop(category, None)
         if not tasks_deleted:
             return False
@@ -89,9 +97,11 @@ class TaskManager:
             self.id_index_tasks.pop(task.id, None)
 
     def get_tasks(self) -> Iterable[Task]:
+        """Получить все задачи"""
         return [task.to_dict() for task in self.id_index_tasks.values()]
 
     def get_tasks_by_category(self, category: str) -> List[Task] | None:
+        """Получить все задачи данной категории"""
         if (category not in
                 self.category_index_tasks):
             return None
@@ -100,6 +110,10 @@ class TaskManager:
     def get_tasks_by_keywords(
             self, keywords: Set[str])\
             -> Tuple[Dict[int, Task], Dict[int, Task]]:
+        """
+        Получить задачи, у которых есть совпадения слов (keywords)
+        в названии или в описании задачи
+        """
         matching_in_title = {}
         for task in self.id_index_tasks.values():
             title = task.title.lower()
@@ -116,6 +130,7 @@ class TaskManager:
         return matching_in_title, matching_in_description
 
     def get_tasks_by_status(self, status: str) -> Iterable[Task]:
+        """Получить все задачи по статусу"""
         self.id_index_tasks.values()
         return [
             task.to_dict() for task in self.id_index_tasks.values()
@@ -123,6 +138,7 @@ class TaskManager:
         ]
 
     def save_tasks(self) -> None:
+        """Сохранить задачи в json файл"""
         with open(self.file, "w", encoding="utf-8") as file_to_save:
             json.dump(
                 [task.to_dict() for task in self.id_index_tasks.values()],
