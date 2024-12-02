@@ -1,4 +1,5 @@
 import unittest
+import os
 
 from src.models.Task import Task
 from src.models.TaskManager import TaskManager
@@ -8,7 +9,7 @@ class TestTaskManager(unittest.TestCase):
 
     def setUp(self):
         """Создание экземпляра TaskManager с задачей для всех тестов"""
-        self.task_manager = TaskManager('data/test_tasks.json')
+        self.task_manager = TaskManager(file=os.path.abspath(os.path.join(os.path.dirname(__file__), '../tests/data/test_tasks.json')))
         self.sample_task = {
             'id': 1,
             'title': 'тест',

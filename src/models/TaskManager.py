@@ -1,5 +1,6 @@
 import json
 import re
+import os
 
 from collections import defaultdict
 from typing import List, Dict, Iterable, Set, Tuple
@@ -8,7 +9,7 @@ from .TaskValidation import TaskValidation
 
 
 class TaskManager:
-    def __init__(self, file: str = 'data/tasks.json'):
+    def __init__(self, file: str = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data/tasks.json'))):
         self.file: str = file
         self.id_index_tasks: Dict[int, Task]\
             = self._load_tasks()
